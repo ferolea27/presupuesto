@@ -330,7 +330,7 @@
 
   <div class="form-group">
     <label>Cliente</label>
-    <input type="text" id="f-cliente" placeholder="Nombre / Obra" value="Caldero — Obra Entresierras, Casa Emi &amp; Iña">
+    <input type="text" id="f-cliente" placeholder="Nombre / Obra" >
   </div>
 
   <div class="form-group">
@@ -364,34 +364,34 @@
   <div class="form-row">
     <div class="form-group">
       <label>Mano de obra ($)</label>
-      <input type="number" id="f-monto" placeholder="450000" value="450000">
+      <input type="number" id="f-monto" placeholder="450000" placeholder="450000">
     </div>
     <div class="form-group">
       <label>Jornadas</label>
-      <input type="number" id="f-jornadas" placeholder="1.5" value="1.5" min="0.5" step="0.5">
+      <input type="number" id="f-jornadas" placeholder="1.5" placeholder="1.5" min="0.5" step="0.5">
     </div>
   </div>
 
   <div class="form-group">
     <label>Ayudantes</label>
-    <input type="number" id="f-ayudante" placeholder="1" value="1" min="0" step="1">
+    <input type="number" id="f-ayudante" placeholder="1" placeholder="1" min="0" step="1">
     <div class="jornadas-auto" id="mo-preview"></div>
   </div>
 
   <div class="form-row">
     <div class="form-group">
       <label>Forma de pago</label>
-      <input type="text" id="f-pago" value="Transferencia o efectivo">
+      <input type="text" id="f-pago" placeholder="Transferencia o efectivo">
     </div>
     <div class="form-group">
       <label>Validez</label>
-      <input type="text" id="f-validez" value="7 días">
+      <input type="text" id="f-validez" placeholder="7 días">
     </div>
   </div>
 
   <div class="form-group">
     <label>Nota al pie (opcional)</label>
-    <textarea id="f-nota" placeholder="Observaciones adicionales...">* Tiempo estimado: 1 jornada y media, con posibilidad de extenderse a 2 jornadas según requerimientos en obra.</textarea>
+    <textarea id="f-nota" placeholder="Observaciones adicionales..."></textarea>
   </div>
 
   <button class="btn-generar" onclick="generar()">Actualizar presupuesto</button>
@@ -418,13 +418,7 @@ const SERVICIOS = [
   {icon:'🏠', label:'Mantenimiento'},
 ];
 
-const DEFAULT_ITEMS = [
-  "Agujereado de bisagras con mecha especial",
-  "Colocación de marcos y portón de entrada",
-  "Ajuste de cerraduras",
-  "Colocación de cerrojo",
-  "Pintura y colocación de manijón especial",
-];
+const DEFAULT_ITEMS = [];
 
 // Set today
 document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
