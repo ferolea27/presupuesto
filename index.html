@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fer Olea — Presupuestos</title>
+<meta name="theme-color" content="#3a2410">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Presupuestos">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  :root{
+    --marron:#3a2410;
+    --marron2:#5c3d1e;
+    --crema:#f7f4ef;
+    --arena:#ede6d8;
+    --arena-b:#d4c8b0;
+    --dorado:#c9a060;
+    --txt-dk:#3a2e20;
+    --txt-md:#6a5035;
+  }
+
+  body{
+    font-family:'Source Sans 3',sans-serif;
+    background:#e4ddd3;
+    min-height:100vh;
+    display:flex;
+    gap:0;
+  }
+
+  /* ── PANEL IZQUIERDO ── */
+  .panel-form{
+    width:420px;
+    min-width:340px;
+    background:var(--marron);
+    padding:28px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    overflow-y:auto;
+    min-height:100vh;
+  }
+
+  .panel-title{
+    font-family:'Oswald',sans-serif;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--dorado);
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(201,160,96,.2);
+  }
+
+  .brand-head{margin-bottom:24px;}
+  .brand-head .fer{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:#f0e6d0;}
+  .brand-head .olea{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--dorado);}
+  .brand-head .sub{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);margin-top:2px;}
+
+  .form-group{margin-bottom:16px;}
+  .form-group label{
+    display:block;
+    font-family:'Oswald',sans-serif;
+    font-size:9px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--dorado);
+    margin-bottom:6px;
+  }
+  .form-group input,.form-group textarea{
+    width:100%;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(201,160,96,.25);
+    border-radius:3px;
+    padding:9px 11px;
+    color:#ecdfc8;
+    font-family:'Source Sans 3',sans-serif;
+    font-size:13px;
+    font-weight:300;
+    outline:none;
+    transition:border-color .2s;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder{color:rgba(236,223,200,.3);}
+  .form-group input:focus,
+  .form-group textarea:focus{border-color:var(--dorado);}
+  .form-group textarea{resize:vertical;min-height:60px;}
+
+  /* jornadas auto */
+  .jornadas-auto{
+    font-family:'Oswald',sans-serif;
+    font-size:9px;
+    letter-spacing:.1em;
+    color:rgba(201,160,96,.55);
+    margin-top:5px;
+    font-style:italic;
+  }
+
+  /* items dinámicos */
+  .items-section{margin-bottom:16px;}
+  .items-section .items-label{
+    font-family:'Oswald',sans-serif;
+    font-size:9px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--dorado);
+    margin-bottom:8px;
+  }
+  .item-row{
+    display:flex;
+    gap:6px;
+    margin-bottom:6px;
+    align-items:center;
+  }
+  .item-row input.item-desc{
+    flex:1;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(201,160,96,.2);
+    border-radius:3px;
+    padding:8px 10px;
+    color:#ecdfc8;
+    font-family:'Source Sans 3',sans-serif;
+    font-size:13px;
+    font-weight:300;
+    outline:none;
+  }
+  .item-row input.item-price{
+    width:100px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(201,160,96,.15);
+    border-radius:3px;
+    padding:8px 8px;
+    color:#c9a060;
+    font-family:'Source Sans 3',sans-serif;
+    font-size:12px;
+    font-weight:300;
+    outline:none;
+    text-align:right;
+  }
+  .item-row input.item-price::placeholder{color:rgba(201,160,96,.25);}
+  .item-row input:focus{border-color:var(--dorado);}
+
+  .btn-remove{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,160,96,.2);
+    border-radius:3px;
+    color:rgba(201,160,96,.5);
+    width:28px;height:28px;
+    cursor:pointer;font-size:14px;
+    flex-shrink:0;
+    transition:all .15s;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .btn-remove:hover{color:var(--dorado);border-color:var(--dorado);}
+
+  .btn-add-item{
+    background:transparent;
+    border:1px dashed rgba(201,160,96,.3);
+    border-radius:3px;
+    color:rgba(201,160,96,.6);
+    width:100%;padding:7px;
+    cursor:pointer;
+    font-family:'Oswald',sans-serif;
+    font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    transition:all .2s;
+  }
+  .btn-add-item:hover{border-color:var(--dorado);color:var(--dorado);}
+
+  .col-headers{
+    display:flex;gap:6px;margin-bottom:4px;padding-right:34px;
+  }
+  .col-headers span{
+    font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.1em;
+    text-transform:uppercase;color:rgba(201,160,96,.4);
+  }
+  .col-headers .ch-desc{flex:1;}
+  .col-headers .ch-price{width:100px;text-align:right;}
+
+  .form-row{display:flex;gap:10px;}
+  .form-row .form-group{flex:1;}
+
+  .btn-generar{
+    margin-top:20px;
+    background:var(--dorado);
+    color:var(--marron);
+    border:none;border-radius:3px;padding:13px;width:100%;
+    font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;
+  }
+  .btn-generar:hover{background:#d4aa70;}
+
+  /* ── PANEL DERECHO ── */
+  .panel-preview{
+    flex:1;padding:32px 28px;overflow-y:auto;
+    display:flex;flex-direction:column;align-items:center;gap:16px;
+  }
+
+  .preview-actions{display:flex;gap:10px;width:100%;max-width:580px;}
+  .btn-action{
+    flex:1;padding:10px;border:none;border-radius:3px;
+    font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;cursor:pointer;transition:all .2s;
+  }
+  .btn-copy{background:var(--arena);color:var(--txt-dk);}
+  .btn-copy:hover{background:var(--arena-b);}
+  .btn-print{background:var(--marron);color:#f0e6d0;}
+  .btn-print:hover{background:#5c3d1e;}
+
+  .copy-ok{
+    color:#5a8a4a;font-size:12px;font-family:'Oswald',sans-serif;
+    letter-spacing:.1em;opacity:0;transition:opacity .3s;
+  }
+  .copy-ok.show{opacity:1;}
+
+  /* ── PRESUPUESTO ── */
+  .presupuesto{
+    width:100%;max-width:580px;background:var(--crema);
+    border-radius:5px;overflow:hidden;box-shadow:0 3px 20px rgba(0,0,0,.12);
+  }
+
+  .pres-header{background:var(--marron);padding:28px 32px 22px;}
+  .pres-brand-row{display:flex;align-items:flex-end;gap:3px;margin-bottom:4px;}
+  .pres-fer{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#f0e6d0;line-height:1;}
+  .pres-olea{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:var(--dorado);line-height:1;}
+  .pres-tagline{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dorado);margin-bottom:18px;}
+  .pres-meta{display:flex;flex-direction:column;gap:4px;}
+  .pres-meta-row{display:flex;gap:10px;font-size:13px;}
+  .pres-meta-lbl{font-family:'Oswald',sans-serif;font-size:11px;color:var(--dorado);text-transform:uppercase;letter-spacing:.06em;min-width:65px;padding-top:2px;}
+  .pres-meta-val{color:#ecdfc8;font-weight:300;}
+
+  .pres-body{padding:22px 32px 0;}
+
+  .pres-svc-strip{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;
+    padding-bottom:18px;border-bottom:1px solid var(--arena-b);margin-bottom:20px;
+    font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--txt-md);
+  }
+  .pres-svc-strip span{display:flex;align-items:center;gap:6px;font-size:13px;}
+  .pres-svc-strip span:before{font-size:20px;}
+
+  .pres-sec-title{
+    font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dorado);
+    margin-bottom:12px;display:flex;align-items:center;gap:10px;
+  }
+  .pres-sec-title::after{content:'';flex:1;height:1px;background:var(--arena-b);}
+
+  /* items con precio opcional */
+  .pres-items{list-style:none;margin-bottom:22px;}
+  .pres-items li{
+    font-size:13px;font-weight:300;color:var(--txt-dk);
+    padding:8px 0;border-bottom:1px solid #e8e2d8;
+    display:flex;align-items:flex-start;justify-content:space-between;gap:10px;line-height:1.4;
+  }
+  .pres-items li:last-child{border-bottom:none;}
+  .pres-items li .item-text{display:flex;align-items:flex-start;gap:10px;flex:1;}
+  .pres-items li .item-text::before{content:'▸';color:#b08040;font-size:9px;flex-shrink:0;margin-top:3px;}
+  .pres-items li .item-amt{
+    font-family:'Oswald',sans-serif;font-size:12px;color:var(--txt-md);
+    flex-shrink:0;white-space:nowrap;padding-top:1px;
+  }
+
+  .pres-totales{
+    background:var(--arena);border:1px solid var(--arena-b);
+    border-radius:4px;padding:14px 18px;margin-bottom:18px;
+  }
+  .pres-tot-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:13px;}
+  .pres-tot-row .lbl{color:var(--txt-md);font-weight:300;}
+  .pres-tot-row .amt{font-family:'Oswald',sans-serif;font-size:14px;color:var(--txt-dk);}
+  .pres-tot-row.grand{border-top:1px solid var(--arena-b);margin-top:8px;padding-top:10px;}
+  .pres-tot-row.grand .lbl{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--txt-dk);letter-spacing:.08em;text-transform:uppercase;}
+  .pres-tot-row.grand .amt{font-size:20px;color:var(--marron);font-weight:600;}
+  .pres-tot-row.sub{padding:2px 0 2px 12px;}
+  .pres-tot-row.sub .lbl{font-size:12px;color:#9a8060;}
+  .pres-tot-row.sub .amt{font-size:12px;color:#9a8060;}
+  .pres-divider{height:1px;background:var(--arena-b);margin:8px 0;}
+
+  .pres-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+  .pres-info-cell{background:#f0ece4;border:1px solid var(--arena-b);border-radius:3px;padding:8px 12px;}
+  .pres-info-cell .lbl{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:3px;}
+  .pres-info-cell .val{font-size:12px;color:var(--txt-dk);font-weight:300;}
+
+  .pres-nota{
+    font-size:11px;color:#9a8a70;font-style:italic;line-height:1.5;
+    border-left:2px solid var(--arena-b);padding-left:10px;margin-bottom:0;
+  }
+
+  .pres-footer{
+    background:var(--marron);padding:18px 32px;
+    display:flex;justify-content:space-between;align-items:center;margin-top:22px;
+  }
+  .pres-footer-brand{font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;}
+  .pres-footer-brand .fer{color:#f0e6d0;}
+  .pres-footer-brand .olea{color:var(--dorado);}
+  .pres-footer-sub{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#8a6a40;margin-top:2px;}
+  .pres-footer-contact{text-align:right;display:flex;flex-direction:column;gap:2px;}
+  .pres-footer-contact .phone{font-family:'Oswald',sans-serif;font-size:14px;color:#ecdfc8;}
+  .pres-footer-contact span{font-size:11px;color:#9a7e58;}
+
+  @media(max-width:780px){
+    body{flex-direction:column;}
+    .panel-form{width:100%;min-height:auto;}
+    .panel-preview{padding:20px 12px;}
+  }
+  @media print{
+    .panel-form,.preview-actions{display:none!important;}
+    .panel-preview{padding:0;}
+    .presupuesto{box-shadow:none;border-radius:0;max-width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<!-- PANEL FORMULARIO -->
+<div class="panel-form">
+  <div class="brand-head">
+    <div><span class="fer">FER </span><span class="olea">OLEA</span></div>
+    <div class="sub">Generador de Presupuestos</div>
+  </div>
+
+  <div class="panel-title">Datos del presupuesto</div>
+
+  <div class="form-group">
+    <label>Cliente</label>
+    <input type="text" id="f-cliente" placeholder="Nombre / Obra" value="Caldero — Obra Entresierras, Casa Emi &amp; Iña">
+  </div>
+
+  <div class="form-group">
+    <label>Fecha</label>
+    <input type="date" id="f-fecha">
+  </div>
+
+  <!-- TRABAJOS -->
+  <div class="items-section">
+    <div class="items-label">Trabajos a realizar</div>
+    <div class="col-headers">
+      <span class="ch-desc">Descripción</span>
+      <span class="ch-price">Precio (opc.)</span>
+    </div>
+    <div id="items-list"></div>
+    <button class="btn-add-item" onclick="addItem('items-list', generar)">+ Agregar trabajo</button>
+  </div>
+
+  <!-- MATERIALES -->
+  <div class="items-section">
+    <div class="items-label">Materiales</div>
+    <div class="col-headers">
+      <span class="ch-desc">Descripción</span>
+      <span class="ch-price">Precio (opc.)</span>
+    </div>
+    <div id="mat-list"></div>
+    <button class="btn-add-item" onclick="addItem('mat-list', generar)">+ Agregar material</button>
+  </div>
+
+  <!-- MANO DE OBRA -->
+  <div class="form-row">
+    <div class="form-group">
+      <label>Mano de obra ($)</label>
+      <input type="number" id="f-monto" placeholder="450000" value="450000">
+    </div>
+    <div class="form-group">
+      <label>Jornadas</label>
+      <input type="number" id="f-jornadas" placeholder="1.5" value="1.5" min="0.5" step="0.5">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Ayudantes</label>
+    <input type="number" id="f-ayudante" placeholder="1" value="1" min="0" step="1">
+    <div class="jornadas-auto" id="mo-preview"></div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Forma de pago</label>
+      <input type="text" id="f-pago" value="Transferencia o efectivo">
+    </div>
+    <div class="form-group">
+      <label>Validez</label>
+      <input type="text" id="f-validez" value="7 días">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Nota al pie (opcional)</label>
+    <textarea id="f-nota" placeholder="Observaciones adicionales...">* Tiempo estimado: 1 jornada y media, con posibilidad de extenderse a 2 jornadas según requerimientos en obra.</textarea>
+  </div>
+
+  <button class="btn-generar" onclick="generar()">Actualizar presupuesto</button>
+</div>
+
+<!-- PANEL PREVIEW -->
+<div class="panel-preview">
+  <div class="preview-actions">
+    <button class="btn-action btn-copy" onclick="copiarTexto()">Copiar texto (WhatsApp)</button>
+    <span class="copy-ok" id="copy-ok">✓ Copiado!</span>
+    <button class="btn-action btn-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+  <div class="presupuesto" id="presupuesto"></div>
+</div>
+
+<script>
+const SERVICIOS = [
+  {icon:'🪚', label:'Carpintería'},
+  {icon:'🔒', label:'Cerraduras'},
+  {icon:'🔧', label:'Ajustes'},
+  {icon:'⚡', label:'Electricidad'},
+  {icon:'🚿', label:'Plomería'},
+  {icon:'🖌️', label:'Pintura'},
+  {icon:'🏠', label:'Mantenimiento'},
+];
+
+const DEFAULT_ITEMS = [
+  "Agujereado de bisagras con mecha especial",
+  "Colocación de marcos y portón de entrada",
+  "Ajuste de cerraduras",
+  "Colocación de cerrojo",
+  "Pintura y colocación de manijón especial",
+];
+
+// Set today
+document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+
+// Init items
+DEFAULT_ITEMS.forEach(t => addItem('items-list', generar, t));
+
+// ── Helpers ──────────────────────────────────────────────
+
+function addItem(listId, callback, text='', price=''){
+  const list = document.getElementById(listId);
+  const div  = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `
+    <input type="text" class="item-desc" placeholder="Descripción..." value="${text}">
+    <input type="number" class="item-price" placeholder="$ precio" value="${price}" min="0" step="100">
+    <button class="btn-remove" onclick="this.parentElement.remove(); generar()">×</button>`;
+  div.querySelectorAll('input').forEach(i => i.addEventListener('input', generar));
+  list.appendChild(div);
+  if(callback) callback();
+}
+
+function fmt(n){
+  return '$' + Number(n).toLocaleString('es-AR');
+}
+
+function fmtFecha(val){
+  if(!val) return '';
+  const [y,m,d] = val.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function getItems(listId){
+  // Returns array of {desc, price}
+  return [...document.querySelectorAll(`#${listId} .item-row`)].map(row => ({
+    desc:  row.querySelector('.item-desc').value.trim(),
+    price: parseFloat(row.querySelector('.item-price').value) || 0,
+  })).filter(i => i.desc);
+}
+
+function buildMoLabel(jornadas, ayudante){
+  const j = parseFloat(jornadas) || 0;
+  const a = parseInt(ayudante) || 0;
+  let parts = [];
+  if(j > 0){
+    const frac = j % 1;
+    const int  = Math.floor(j);
+    let jStr = '';
+    if(frac === 0)       jStr = `${int} jornada${int !== 1 ? 's' : ''}`;
+    else if(frac === 0.5) jStr = int > 0 ? `${int} jornada${int !== 1 ? 's' : ''} y media` : 'media jornada';
+    else                  jStr = `${j} jornadas`;
+    parts.push(jStr);
+  }
+  if(a > 0) parts.push(`${a} ayudante${a !== 1 ? 's' : ''}`);
+  return parts.join(', ');
+}
+
+// ── Generar preview ──────────────────────────────────────
+
+function generar(){
+  const cliente  = document.getElementById('f-cliente').value || '—';
+  const fecha    = fmtFecha(document.getElementById('f-fecha').value);
+  const monto    = parseFloat(document.getElementById('f-monto').value) || 0;
+  const jornadas = document.getElementById('f-jornadas').value;
+  const ayudante = document.getElementById('f-ayudante').value;
+  const pago     = document.getElementById('f-pago').value || '';
+  const validez  = document.getElementById('f-validez').value || '';
+  const nota     = document.getElementById('f-nota').value || '';
+
+  const moLabel  = buildMoLabel(jornadas, ayudante);
+
+  // Preview label debajo del input
+  document.getElementById('mo-preview').textContent =
+    moLabel ? '→ "Mano de obra (' + moLabel + ')"' : '';
+
+  const trabajos   = getItems('items-list');
+  const materiales = getItems('mat-list');
+
+  const svcHTML = SERVICIOS.map(s => `<span><span style="font-size:20px;line-height:1">${s.icon}</span> ${s.label}</span>`).join('');
+
+  // ── Trabajos HTML ──
+  const itemsHTML = trabajos.length
+    ? trabajos.map(i => {
+        const pTag = i.price > 0 ? `<span class="item-amt">${fmt(i.price)}</span>` : '';
+        return `<li><span class="item-text">${i.desc}</span>${pTag}</li>`;
+      }).join('')
+    : '<li><span class="item-text">—</span></li>';
+
+  // ── Materiales HTML ──
+  const sumMat = materiales.reduce((s,i) => s + i.price, 0);
+  let matSection = '';
+  if(materiales.length > 0){
+    const matHTML = materiales.map(i => {
+      const pTag = i.price > 0 ? `<span class="item-amt">${fmt(i.price)}</span>` : '';
+      return `<li><span class="item-text">${i.desc}</span>${pTag}</li>`;
+    }).join('');
+    matSection = `
+      <div class="pres-sec-title" style="margin-top:4px;">Materiales</div>
+      <ul class="pres-items">${matHTML}</ul>`;
+  }
+
+  // ── Totales HTML ──
+  const total = monto + sumMat;
+  let totalesHTML = '';
+
+  // Trabajos con subtotales individuales si alguno tiene precio
+  const sumTrabajos = trabajos.reduce((s,i) => s + i.price, 0);
+
+  if(sumMat > 0){
+    totalesHTML += `
+      <div class="pres-tot-row">
+        <span class="lbl">Mano de obra${moLabel ? ' ('+moLabel+')' : ''}</span>
+        <span class="amt">${fmt(monto)}</span>
+      </div>
+      <div class="pres-tot-row">
+        <span class="lbl">Materiales</span>
+        <span class="amt">${fmt(sumMat)}</span>
+      </div>`;
+  } else {
+    totalesHTML += `
+      <div class="pres-tot-row">
+        <span class="lbl">Mano de obra${moLabel ? ' ('+moLabel+')' : ''}</span>
+        <span class="amt">${fmt(monto)}</span>
+      </div>`;
+  }
+
+  totalesHTML += `
+    <div class="pres-tot-row grand">
+      <span class="lbl">Total</span>
+      <span class="amt">${fmt(total)}</span>
+    </div>
+    <div class="pres-tot-row">
+      <span class="lbl">Saldo al finalizar</span>
+      <span class="amt">${fmt(total)}</span>
+    </div>`;
+
+  document.getElementById('presupuesto').innerHTML = `
+    <div class="pres-header">
+      <div class="pres-brand-row">
+        <span class="pres-fer">FER&nbsp;</span><span class="pres-olea">OLEA</span>
+      </div>
+      <div class="pres-tagline">Soluciones y Mantenimiento Integral</div>
+      <div class="pres-meta">
+        <div class="pres-meta-row">
+          <span class="pres-meta-lbl">Cliente</span>
+          <span class="pres-meta-val">${cliente}</span>
+        </div>
+        <div class="pres-meta-row">
+          <span class="pres-meta-lbl">Fecha</span>
+          <span class="pres-meta-val">${fecha}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pres-body">
+      <div class="pres-svc-strip" style="margin-top:18px;">${svcHTML}</div>
+
+      <div class="pres-sec-title">Trabajos a realizar</div>
+      <ul class="pres-items">${itemsHTML}</ul>
+
+      ${matSection}
+
+      <div class="pres-totales">${totalesHTML}</div>
+
+      <div class="pres-info-grid">
+        <div class="pres-info-cell">
+          <span class="lbl">Forma de pago</span>
+          <span class="val">${pago}</span>
+        </div>
+        <div class="pres-info-cell">
+          <span class="lbl">Validez</span>
+          <span class="val">${validez}</span>
+        </div>
+      </div>
+
+      ${nota ? `<div class="pres-nota">${nota}</div>` : ''}
+    </div>
+
+    <div class="pres-footer">
+      <div>
+        <div class="pres-footer-brand"><span class="fer">FER&nbsp;</span><span class="olea">OLEA</span></div>
+        <div class="pres-footer-sub">Tandil, Bs. As.</div>
+      </div>
+      <div class="pres-footer-contact">
+        <span class="phone">2494 066 345</span>
+        <span>@feroleasoluciones</span>
+        <span>feroleasoluciones@gmail.com</span>
+      </div>
+    </div>
+  `;
+}
+
+// ── Copiar WhatsApp ──────────────────────────────────────
+
+function copiarTexto(){
+  const cliente  = document.getElementById('f-cliente').value || '—';
+  const fecha    = fmtFecha(document.getElementById('f-fecha').value);
+  const monto    = parseFloat(document.getElementById('f-monto').value) || 0;
+  const jornadas = document.getElementById('f-jornadas').value;
+  const ayudante = document.getElementById('f-ayudante').value;
+  const pago     = document.getElementById('f-pago').value || '';
+  const validez  = document.getElementById('f-validez').value || '';
+  const nota     = document.getElementById('f-nota').value || '';
+  const moLabel  = buildMoLabel(jornadas, ayudante);
+
+  const trabajos   = getItems('items-list');
+  const materiales = getItems('mat-list');
+  const sumMat     = materiales.reduce((s,i) => s + i.price, 0);
+  const total      = monto + sumMat;
+
+  let txt = `*Presupuesto — Fer Olea Mantenimiento y Reformas*\n`;
+  txt += `Cliente: ${cliente}\nFecha: ${fecha}\n\n`;
+
+  txt += `*Trabajos a realizar:*\n`;
+  trabajos.forEach(i => {
+    txt += i.price > 0 ? `• ${i.desc} — ${fmt(i.price)}\n` : `• ${i.desc}\n`;
+  });
+
+  if(materiales.length > 0){
+    txt += `\n*Materiales:*\n`;
+    materiales.forEach(i => {
+      txt += i.price > 0 ? `• ${i.desc} — ${fmt(i.price)}\n` : `• ${i.desc}\n`;
+    });
+  }
+
+  txt += `\nMano de obra${moLabel ? ' ('+moLabel+')' : ''}: ${fmt(monto)}\n`;
+  if(sumMat > 0) txt += `Materiales: ${fmt(sumMat)}\n`;
+  txt += `\n*Total: ${fmt(total)}*\n`;
+  txt += `Saldo al finalizar: ${fmt(total)}\n`;
+  txt += `Forma de pago: ${pago}\n`;
+  txt += `Validez: ${validez}\n`;
+  if(nota) txt += `\n${nota}\n`;
+  txt += `\nFer Olea — 2494 066 345`;
+
+  navigator.clipboard.writeText(txt).then(() => {
+    const el = document.getElementById('copy-ok');
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2500);
+  });
+}
+
+// Live update
+document.querySelectorAll('.panel-form input, .panel-form textarea')
+  .forEach(el => el.addEventListener('input', generar));
+
+// Registrar Service Worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('SW registrado'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+
+generar();
+</script>
+</body>
+</html>
