@@ -311,9 +311,18 @@
     .panel-preview{padding:20px 12px;}
   }
   @media print{
+    *{
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
     .panel-form,.preview-actions{display:none!important;}
     .panel-preview{padding:0;}
     .presupuesto{box-shadow:none;border-radius:0;max-width:100%;}
+    .pres-header{background:#3a2410 !important;}
+    .pres-footer{background:#3a2410 !important;}
+    .pres-totales{background:#ede6d8 !important;}
+    .pres-info-cell{background:#f0ece4 !important;}
   }
 </style>
 </head>
