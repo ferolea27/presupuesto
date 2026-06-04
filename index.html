@@ -456,6 +456,9 @@ function addItem(listId, callback, text='', price=''){
   if(callback) callback();
 }
 
+// Init items
+  DEFAULT_ITEMS.forEach(t => addItem('items-list', generar, t));
+
 function fmt(n){
   return '$' + Number(n).toLocaleString('es-AR');
 }
