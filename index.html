@@ -389,13 +389,19 @@
 
   <div class="form-row">
     <div class="form-group">
+      <label>Seña (%)</label>
+      <input type="number" id="f-sena" placeholder="0" min="0" max="100" step="5">
+      <div class="jornadas-auto" id="sena-preview"></div>
+    </div>
+    <div class="form-group">
       <label>Forma de pago</label>
       <input type="text" id="f-pago" placeholder="Transferencia o efectivo">
     </div>
-    <div class="form-group">
-      <label>Validez</label>
-      <input type="text" id="f-validez" placeholder="7 días">
-    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Validez</label>
+    <input type="text" id="f-validez" placeholder="7 días">
   </div>
 
   <div class="form-group">
@@ -496,12 +502,19 @@ function generar(){
   const pago     = document.getElementById('f-pago').value || '';
   const validez  = document.getElementById('f-validez').value || '';
   const nota     = document.getElementById('f-nota').value || '';
+  const senaPct  = parseFloat(document.getElementById('f-sena').value) || 0;
 
   const moLabel  = buildMoLabel(jornadas, ayudante);
 
   // Preview label debajo del input
   document.getElementById('mo-preview').textContent =
     moLabel ? '→ "Mano de obra (' + moLabel + ')"' : '';
+
+  // Preview seña
+  const total0 = (parseFloat(document.getElementById('f-monto').value)||0);
+  const senaAmt = senaPct > 0 ? Math.round(total0 * senaPct / 100) : 0;
+  document.getElementById('sena-preview').textContent =
+    senaAmt > 0 ? '→ Seña: ' + fmt(senaAmt) : '';
 
   const trabajos   = getItems('items-list');
   const materiales = getItems('mat-list');
@@ -554,15 +567,32 @@ function generar(){
       </div>`;
   }
 
+  const senaAmt  = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
+  const saldo    = total - senaAmt;
+
   totalesHTML += `
     <div class="pres-tot-row grand">
       <span class="lbl">Total</span>
       <span class="amt">${fmt(total)}</span>
+    </div>`;
+
+  if(senaAmt > 0){
+    totalesHTML += `
+    <div class="pres-tot-row" style="margin-top:4px;">
+      <span class="lbl">Seña (${senaPct}%)</span>
+      <span class="amt">${fmt(senaAmt)}</span>
     </div>
+    <div class="pres-tot-row" style="border-top:1px solid var(--arena-b);margin-top:6px;padding-top:8px;">
+      <span class="lbl" style="font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-dk);">Saldo al finalizar</span>
+      <span class="amt" style="font-size:16px;color:var(--marron);font-weight:600;">${fmt(saldo)}</span>
+    </div>`;
+  } else {
+    totalesHTML += `
     <div class="pres-tot-row">
       <span class="lbl">Saldo al finalizar</span>
       <span class="amt">${fmt(total)}</span>
     </div>`;
+  }
 
   // Solo mostrar si hay datos
   if(!cliente || cliente === '—'){
@@ -668,7 +698,14 @@ function copiarTexto(){
   txt += `\nMano de obra${moLabel ? ' ('+moLabel+')' : ''}: ${fmt(monto)}\n`;
   if(sumMat > 0) txt += `Materiales: ${fmt(sumMat)}\n`;
   txt += `\n*Total: ${fmt(total)}*\n`;
-  txt += `Saldo al finalizar: ${fmt(total)}\n`;
+  const senaPct2 = parseFloat(document.getElementById('f-sena').value) || 0;
+  const senaAmt2 = senaPct2 > 0 ? Math.round(total * senaPct2 / 100) : 0;
+  if(senaAmt2 > 0){
+    txt += `Seña (${senaPct2}%): ${fmt(senaAmt2)}\n`;
+    txt += `Saldo al finalizar: ${fmt(total - senaAmt2)}\n`;
+  } else {
+    txt += `Saldo al finalizar: ${fmt(total)}\n`;
+  }
   txt += `Forma de pago: ${pago}\n`;
   txt += `Validez: ${validez}\n`;
   if(nota) txt += `\n${nota}\n`;
