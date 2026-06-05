@@ -11,337 +11,141 @@
 <meta name="apple-mobile-web-app-title" content="Presupuestos">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --marron:#3a2410;
+  --marron2:#5c3d1e;
+  --crema:#f7f4ef;
+  --arena:#ede6d8;
+  --arena-b:#d4c8b0;
+  --dorado:#c9a060;
+  --txt-dk:#3a2e20;
+  --txt-md:#6a5035;
+}
+body{font-family:'Source Sans 3',sans-serif;background:#e4ddd3;min-height:100vh;display:flex;}
 
-  *{margin:0;padding:0;box-sizing:border-box;}
+/* ── PANEL IZQUIERDO ── */
+.panel-form{width:420px;min-width:340px;background:var(--marron);padding:28px 24px;display:flex;flex-direction:column;overflow-y:auto;min-height:100vh;}
+.brand-head{margin-bottom:20px;}
+.brand-head .fer{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:#f0e6d0;}
+.brand-head .olea{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--dorado);}
+.brand-head .sub{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);margin-top:2px;}
+.panel-title{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dorado);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(201,160,96,.2);}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);margin-bottom:5px;}
+.form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(201,160,96,.25);border-radius:3px;padding:9px 11px;color:#ecdfc8;font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .2s;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(236,223,200,.3);}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--dorado);}
+.form-group textarea{resize:vertical;min-height:60px;}
+.form-row{display:flex;gap:10px;}
+.form-row .form-group{flex:1;}
+.hint{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.1em;color:rgba(201,160,96,.55);margin-top:4px;font-style:italic;}
 
-  :root{
-    --marron:#3a2410;
-    --marron2:#5c3d1e;
-    --crema:#f7f4ef;
-    --arena:#ede6d8;
-    --arena-b:#d4c8b0;
-    --dorado:#c9a060;
-    --txt-dk:#3a2e20;
-    --txt-md:#6a5035;
-  }
+/* items */
+.items-section{margin-bottom:14px;}
+.items-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);margin-bottom:6px;}
+.col-headers{display:flex;gap:6px;margin-bottom:3px;padding-right:34px;}
+.col-headers span{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(201,160,96,.4);}
+.col-headers .ch-desc{flex:1;}
+.col-headers .ch-price{width:100px;text-align:right;}
+.item-row{display:flex;gap:6px;margin-bottom:6px;align-items:center;}
+.item-row input.item-desc{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(201,160,96,.2);border-radius:3px;padding:8px 10px;color:#ecdfc8;font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:300;outline:none;}
+.item-row input.item-price{width:100px;background:rgba(255,255,255,.05);border:1px solid rgba(201,160,96,.15);border-radius:3px;padding:8px;color:#c9a060;font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:300;outline:none;text-align:right;}
+.item-row input.item-price::placeholder{color:rgba(201,160,96,.25);}
+.item-row input:focus{border-color:var(--dorado);}
+.btn-remove{background:rgba(255,255,255,.06);border:1px solid rgba(201,160,96,.2);border-radius:3px;color:rgba(201,160,96,.5);width:28px;height:28px;cursor:pointer;font-size:14px;flex-shrink:0;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.btn-remove:hover{color:var(--dorado);border-color:var(--dorado);}
+.btn-add-item{background:transparent;border:1px dashed rgba(201,160,96,.3);border-radius:3px;color:rgba(201,160,96,.6);width:100%;padding:7px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;transition:all .2s;margin-top:2px;}
+.btn-add-item:hover{border-color:var(--dorado);color:var(--dorado);}
+.btn-generar{margin-top:18px;background:var(--dorado);color:var(--marron);border:none;border-radius:3px;padding:13px;width:100%;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.btn-generar:hover{background:#d4aa70;}
 
-  body{
-    font-family:'Source Sans 3',sans-serif;
-    background:#e4ddd3;
-    min-height:100vh;
-    display:flex;
-    gap:0;
-  }
+/* ── PANEL DERECHO ── */
+.panel-preview{flex:1;padding:32px 28px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.preview-actions{display:flex;gap:10px;width:100%;max-width:580px;align-items:center;}
+.btn-action{flex:1;padding:10px;border:none;border-radius:3px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-copy{background:var(--arena);color:var(--txt-dk);}
+.btn-copy:hover{background:var(--arena-b);}
+.btn-print{background:var(--marron);color:#f0e6d0;}
+.btn-print:hover{background:#5c3d1e;}
+.copy-ok{color:#5a8a4a;font-size:12px;font-family:'Oswald',sans-serif;letter-spacing:.1em;opacity:0;transition:opacity .3s;}
+.copy-ok.show{opacity:1;}
 
-  /* ── PANEL IZQUIERDO ── */
-  .panel-form{
-    width:420px;
-    min-width:340px;
-    background:var(--marron);
-    padding:28px 24px;
-    display:flex;
-    flex-direction:column;
-    gap:0;
-    overflow-y:auto;
-    min-height:100vh;
-  }
+/* ── PRESUPUESTO ── */
+.presupuesto{width:100%;max-width:580px;background:var(--crema);border-radius:5px;overflow:hidden;box-shadow:0 3px 20px rgba(0,0,0,.12);}
+.pres-header{background:var(--marron);padding:28px 32px 22px;}
+.pres-brand-row{display:flex;align-items:flex-end;gap:3px;margin-bottom:4px;}
+.pres-fer{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#f0e6d0;line-height:1;}
+.pres-olea{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:var(--dorado);line-height:1;}
+.pres-tagline{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dorado);margin-bottom:18px;}
+.pres-meta-row{display:flex;gap:10px;font-size:13px;margin-bottom:4px;}
+.pres-meta-lbl{font-family:'Oswald',sans-serif;font-size:11px;color:var(--dorado);text-transform:uppercase;letter-spacing:.06em;min-width:65px;padding-top:2px;}
+.pres-meta-val{color:#ecdfc8;font-weight:300;}
+.pres-body{padding:22px 32px 0;}
+.pres-svc-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;padding-bottom:18px;border-bottom:1px solid var(--arena-b);margin-bottom:20px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-md);}
+.pres-svc-strip span{display:flex;align-items:center;gap:6px;}
+.pres-sec-title{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dorado);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.pres-sec-title::after{content:'';flex:1;height:1px;background:var(--arena-b);}
+.pres-items{list-style:none;margin-bottom:22px;}
+.pres-items li{font-size:13px;font-weight:300;color:var(--txt-dk);padding:8px 0;border-bottom:1px solid #e8e2d8;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;line-height:1.4;}
+.pres-items li:last-child{border-bottom:none;}
+.pres-items li .item-text{display:flex;align-items:flex-start;gap:10px;flex:1;}
+.pres-items li .item-text::before{content:'▸';color:#b08040;font-size:9px;flex-shrink:0;margin-top:3px;}
+.pres-items li .item-amt{font-family:'Oswald',sans-serif;font-size:12px;color:var(--txt-md);flex-shrink:0;white-space:nowrap;padding-top:1px;}
+.pres-totales{background:var(--arena);border:1px solid var(--arena-b);border-radius:4px;padding:14px 18px;margin-bottom:18px;}
+.pres-tot-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:13px;}
+.pres-tot-row .lbl{color:var(--txt-md);font-weight:300;}
+.pres-tot-row .amt{font-family:'Oswald',sans-serif;font-size:14px;color:var(--txt-dk);}
+.pres-tot-row.grand{border-top:1px solid var(--arena-b);margin-top:8px;padding-top:10px;}
+.pres-tot-row.grand .lbl{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--txt-dk);letter-spacing:.08em;text-transform:uppercase;}
+.pres-tot-row.grand .amt{font-size:20px;color:var(--marron);font-weight:600;}
+.pres-tot-row.saldo .lbl{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-dk);}
+.pres-tot-row.saldo .amt{font-size:16px;color:var(--marron);font-weight:600;}
+.pres-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.pres-info-cell{background:#f0ece4;border:1px solid var(--arena-b);border-radius:3px;padding:8px 12px;}
+.pres-info-cell .lbl{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:3px;}
+.pres-info-cell .val{font-size:12px;color:var(--txt-dk);font-weight:300;}
+.pres-nota{font-size:11px;color:#9a8a70;font-style:italic;line-height:1.5;border-left:2px solid var(--arena-b);padding-left:10px;margin-bottom:0;}
+.pres-footer{background:var(--marron);padding:18px 32px;display:flex;justify-content:space-between;align-items:center;margin-top:22px;}
+.pres-footer-brand{font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;}
+.pres-footer-brand .fer{color:#f0e6d0;}
+.pres-footer-brand .olea{color:var(--dorado);}
+.pres-footer-sub{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#8a6a40;margin-top:2px;}
+.pres-footer-contact{text-align:right;display:flex;flex-direction:column;gap:2px;}
+.pres-footer-contact .phone{font-family:'Oswald',sans-serif;font-size:14px;color:#ecdfc8;}
+.pres-footer-contact span{font-size:11px;color:#9a7e58;}
+.pres-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;color:#a08060;font-family:'Oswald',sans-serif;letter-spacing:.15em;text-transform:uppercase;font-size:11px;gap:12px;}
+.pres-empty .ico{font-size:36px;opacity:.3;}
 
-  .panel-title{
-    font-family:'Oswald',sans-serif;
-    font-size:10px;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    color:var(--dorado);
-    margin-bottom:20px;
-    padding-bottom:10px;
-    border-bottom:1px solid rgba(201,160,96,.2);
-  }
-
-  .brand-head{margin-bottom:24px;}
-  .brand-head .fer{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:#f0e6d0;}
-  .brand-head .olea{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--dorado);}
-  .brand-head .sub{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);margin-top:2px;}
-
-  .form-group{margin-bottom:16px;}
-  .form-group label{
-    display:block;
-    font-family:'Oswald',sans-serif;
-    font-size:9px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:var(--dorado);
-    margin-bottom:6px;
-  }
-  .form-group input,.form-group textarea{
-    width:100%;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(201,160,96,.25);
-    border-radius:3px;
-    padding:9px 11px;
-    color:#ecdfc8;
-    font-family:'Source Sans 3',sans-serif;
-    font-size:13px;
-    font-weight:300;
-    outline:none;
-    transition:border-color .2s;
-  }
-  .form-group input::placeholder,
-  .form-group textarea::placeholder{color:rgba(236,223,200,.3);}
-  .form-group input:focus,
-  .form-group textarea:focus{border-color:var(--dorado);}
-  .form-group textarea{resize:vertical;min-height:60px;}
-
-  /* jornadas auto */
-  .jornadas-auto{
-    font-family:'Oswald',sans-serif;
-    font-size:9px;
-    letter-spacing:.1em;
-    color:rgba(201,160,96,.55);
-    margin-top:5px;
-    font-style:italic;
-  }
-
-  /* items dinámicos */
-  .items-section{margin-bottom:16px;}
-  .items-section .items-label{
-    font-family:'Oswald',sans-serif;
-    font-size:9px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:var(--dorado);
-    margin-bottom:8px;
-  }
-  .item-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:6px;
-    align-items:center;
-  }
-  .item-row input.item-desc{
-    flex:1;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(201,160,96,.2);
-    border-radius:3px;
-    padding:8px 10px;
-    color:#ecdfc8;
-    font-family:'Source Sans 3',sans-serif;
-    font-size:13px;
-    font-weight:300;
-    outline:none;
-  }
-  .item-row input.item-price{
-    width:100px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(201,160,96,.15);
-    border-radius:3px;
-    padding:8px 8px;
-    color:#c9a060;
-    font-family:'Source Sans 3',sans-serif;
-    font-size:12px;
-    font-weight:300;
-    outline:none;
-    text-align:right;
-  }
-  .item-row input.item-price::placeholder{color:rgba(201,160,96,.25);}
-  .item-row input:focus{border-color:var(--dorado);}
-
-  .btn-remove{
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(201,160,96,.2);
-    border-radius:3px;
-    color:rgba(201,160,96,.5);
-    width:28px;height:28px;
-    cursor:pointer;font-size:14px;
-    flex-shrink:0;
-    transition:all .15s;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .btn-remove:hover{color:var(--dorado);border-color:var(--dorado);}
-
-  .btn-add-item{
-    background:transparent;
-    border:1px dashed rgba(201,160,96,.3);
-    border-radius:3px;
-    color:rgba(201,160,96,.6);
-    width:100%;padding:7px;
-    cursor:pointer;
-    font-family:'Oswald',sans-serif;
-    font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    transition:all .2s;
-  }
-  .btn-add-item:hover{border-color:var(--dorado);color:var(--dorado);}
-
-  .col-headers{
-    display:flex;gap:6px;margin-bottom:4px;padding-right:34px;
-  }
-  .col-headers span{
-    font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.1em;
-    text-transform:uppercase;color:rgba(201,160,96,.4);
-  }
-  .col-headers .ch-desc{flex:1;}
-  .col-headers .ch-price{width:100px;text-align:right;}
-
-  .form-row{display:flex;gap:10px;}
-  .form-row .form-group{flex:1;}
-
-  .btn-generar{
-    margin-top:20px;
-    background:var(--dorado);
-    color:var(--marron);
-    border:none;border-radius:3px;padding:13px;width:100%;
-    font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;
-    letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;
-  }
-  .btn-generar:hover{background:#d4aa70;}
-
-  /* ── PANEL DERECHO ── */
-  .panel-preview{
-    flex:1;padding:32px 28px;overflow-y:auto;
-    display:flex;flex-direction:column;align-items:center;gap:16px;
-  }
-
-  .preview-actions{display:flex;gap:10px;width:100%;max-width:580px;}
-  .btn-action{
-    flex:1;padding:10px;border:none;border-radius:3px;
-    font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;
-    text-transform:uppercase;cursor:pointer;transition:all .2s;
-  }
-  .btn-copy{background:var(--arena);color:var(--txt-dk);}
-  .btn-copy:hover{background:var(--arena-b);}
-  .btn-print{background:var(--marron);color:#f0e6d0;}
-  .btn-print:hover{background:#5c3d1e;}
-
-  .copy-ok{
-    color:#5a8a4a;font-size:12px;font-family:'Oswald',sans-serif;
-    letter-spacing:.1em;opacity:0;transition:opacity .3s;
-  }
-  .copy-ok.show{opacity:1;}
-
-  /* ── PRESUPUESTO ── */
-  .presupuesto{
-    width:100%;max-width:580px;background:var(--crema);
-    border-radius:5px;overflow:hidden;box-shadow:0 3px 20px rgba(0,0,0,.12);
-  }
-
-  .pres-header{background:var(--marron);padding:28px 32px 22px;}
-  .pres-brand-row{display:flex;align-items:flex-end;gap:3px;margin-bottom:4px;}
-  .pres-fer{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#f0e6d0;line-height:1;}
-  .pres-olea{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:var(--dorado);line-height:1;}
-  .pres-tagline{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dorado);margin-bottom:18px;}
-  .pres-meta{display:flex;flex-direction:column;gap:4px;}
-  .pres-meta-row{display:flex;gap:10px;font-size:13px;}
-  .pres-meta-lbl{font-family:'Oswald',sans-serif;font-size:11px;color:var(--dorado);text-transform:uppercase;letter-spacing:.06em;min-width:65px;padding-top:2px;}
-  .pres-meta-val{color:#ecdfc8;font-weight:300;}
-
-  .pres-body{padding:22px 32px 0;}
-
-  .pres-svc-strip{
-    display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;
-    padding-bottom:18px;border-bottom:1px solid var(--arena-b);margin-bottom:20px;
-    font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--txt-md);
-  }
-  .pres-svc-strip span{display:flex;align-items:center;gap:6px;font-size:13px;}
-  .pres-svc-strip span:before{font-size:20px;}
-
-  .pres-sec-title{
-    font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--dorado);
-    margin-bottom:12px;display:flex;align-items:center;gap:10px;
-  }
-  .pres-sec-title::after{content:'';flex:1;height:1px;background:var(--arena-b);}
-
-  /* items con precio opcional */
-  .pres-items{list-style:none;margin-bottom:22px;}
-  .pres-items li{
-    font-size:13px;font-weight:300;color:var(--txt-dk);
-    padding:8px 0;border-bottom:1px solid #e8e2d8;
-    display:flex;align-items:flex-start;justify-content:space-between;gap:10px;line-height:1.4;
-  }
-  .pres-items li:last-child{border-bottom:none;}
-  .pres-items li .item-text{display:flex;align-items:flex-start;gap:10px;flex:1;}
-  .pres-items li .item-text::before{content:'▸';color:#b08040;font-size:9px;flex-shrink:0;margin-top:3px;}
-  .pres-items li .item-amt{
-    font-family:'Oswald',sans-serif;font-size:12px;color:var(--txt-md);
-    flex-shrink:0;white-space:nowrap;padding-top:1px;
-  }
-
-  .pres-totales{
-    background:var(--arena);border:1px solid var(--arena-b);
-    border-radius:4px;padding:14px 18px;margin-bottom:18px;
-  }
-  .pres-tot-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:13px;}
-  .pres-tot-row .lbl{color:var(--txt-md);font-weight:300;}
-  .pres-tot-row .amt{font-family:'Oswald',sans-serif;font-size:14px;color:var(--txt-dk);}
-  .pres-tot-row.grand{border-top:1px solid var(--arena-b);margin-top:8px;padding-top:10px;}
-  .pres-tot-row.grand .lbl{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--txt-dk);letter-spacing:.08em;text-transform:uppercase;}
-  .pres-tot-row.grand .amt{font-size:20px;color:var(--marron);font-weight:600;}
-  .pres-tot-row.sub{padding:2px 0 2px 12px;}
-  .pres-tot-row.sub .lbl{font-size:12px;color:#9a8060;}
-  .pres-tot-row.sub .amt{font-size:12px;color:#9a8060;}
-  .pres-divider{height:1px;background:var(--arena-b);margin:8px 0;}
-
-  .pres-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
-  .pres-info-cell{background:#f0ece4;border:1px solid var(--arena-b);border-radius:3px;padding:8px 12px;}
-  .pres-info-cell .lbl{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:3px;}
-  .pres-info-cell .val{font-size:12px;color:var(--txt-dk);font-weight:300;}
-
-  .pres-nota{
-    font-size:11px;color:#9a8a70;font-style:italic;line-height:1.5;
-    border-left:2px solid var(--arena-b);padding-left:10px;margin-bottom:0;
-  }
-
-  .pres-footer{
-    background:var(--marron);padding:18px 32px;
-    display:flex;justify-content:space-between;align-items:center;margin-top:22px;
-  }
-  .pres-footer-brand{font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;}
-  .pres-footer-brand .fer{color:#f0e6d0;}
-  .pres-footer-brand .olea{color:var(--dorado);}
-  .pres-footer-sub{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#8a6a40;margin-top:2px;}
-  .pres-footer-contact{text-align:right;display:flex;flex-direction:column;gap:2px;}
-  .pres-footer-contact .phone{font-family:'Oswald',sans-serif;font-size:14px;color:#ecdfc8;}
-  .pres-footer-contact span{font-size:11px;color:#9a7e58;}
-
-  @media(max-width:780px){
-    body{flex-direction:column;}
-    .panel-form{width:100%;min-height:auto;}
-    .panel-preview{padding:20px 12px;}
-  }
-  @media print{
-    *{
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    .panel-form,.preview-actions{display:none!important;}
-    .panel-preview{padding:0;}
-    .presupuesto{box-shadow:none;border-radius:0;max-width:100%;}
-    .pres-header{background:#3a2410 !important;}
-    .pres-footer{background:#3a2410 !important;}
-    .pres-totales{background:#ede6d8 !important;}
-    .pres-info-cell{background:#f0ece4 !important;}
-  }
+@media(max-width:780px){body{flex-direction:column;}.panel-form{width:100%;min-height:auto;}.panel-preview{padding:20px 12px;}}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}
+  .panel-form,.preview-actions{display:none!important;}
+  .panel-preview{padding:0;}
+  .presupuesto{box-shadow:none;border-radius:0;max-width:100%;}
+  .pres-header{background:#3a2410!important;}
+  .pres-footer{background:#3a2410!important;}
+  .pres-totales{background:#ede6d8!important;}
+  .pres-info-cell{background:#f0ece4!important;}
+}
 </style>
 </head>
 <body>
 
-<!-- PANEL FORMULARIO -->
 <div class="panel-form">
   <div class="brand-head">
     <div><span class="fer">FER </span><span class="olea">OLEA</span></div>
     <div class="sub">Generador de Presupuestos</div>
   </div>
-
   <div class="panel-title">Datos del presupuesto</div>
 
   <div class="form-group">
     <label>Cliente</label>
-    <input type="text" id="f-cliente" placeholder="Nombre / Obra" >
+    <input type="text" id="f-cliente" placeholder="Nombre / Obra">
   </div>
-
   <div class="form-group">
     <label>Fecha</label>
     <input type="date" id="f-fecha">
@@ -355,7 +159,7 @@
       <span class="ch-price">Precio (opc.)</span>
     </div>
     <div id="items-list"></div>
-    <button class="btn-add-item" onclick="addItem('items-list', generar)">+ Agregar trabajo</button>
+    <button class="btn-add-item" id="btn-add-trabajo">+ Agregar trabajo</button>
   </div>
 
   <!-- MATERIALES -->
@@ -366,32 +170,32 @@
       <span class="ch-price">Precio (opc.)</span>
     </div>
     <div id="mat-list"></div>
-    <button class="btn-add-item" onclick="addItem('mat-list', generar)">+ Agregar material</button>
+    <button class="btn-add-item" id="btn-add-mat">+ Agregar material</button>
   </div>
 
   <!-- MANO DE OBRA -->
   <div class="form-row">
     <div class="form-group">
       <label>Mano de obra ($)</label>
-      <input type="number" id="f-monto" placeholder="450000">
+      <input type="number" id="f-monto" placeholder="0">
     </div>
     <div class="form-group">
       <label>Jornadas</label>
-      <input type="number" id="f-jornadas" placeholder="1.5" min="0.5" step="0.5">
+      <input type="number" id="f-jornadas" placeholder="1" min="0.5" step="0.5">
     </div>
   </div>
-
   <div class="form-group">
     <label>Ayudantes</label>
-    <input type="number" id="f-ayudante" placeholder="1" min="0" step="1">
-    <div class="jornadas-auto" id="mo-preview"></div>
+    <input type="number" id="f-ayudante" placeholder="0" min="0" step="1">
+    <div class="hint" id="mo-hint"></div>
   </div>
 
+  <!-- SEÑA -->
   <div class="form-row">
     <div class="form-group">
       <label>Seña (%)</label>
       <input type="number" id="f-sena" placeholder="0" min="0" max="100" step="5">
-      <div class="jornadas-auto" id="sena-preview"></div>
+      <div class="hint" id="sena-hint"></div>
     </div>
     <div class="form-group">
       <label>Forma de pago</label>
@@ -403,19 +207,17 @@
     <label>Validez</label>
     <input type="text" id="f-validez" placeholder="7 días">
   </div>
-
   <div class="form-group">
     <label>Nota al pie (opcional)</label>
     <textarea id="f-nota" placeholder="Observaciones adicionales..."></textarea>
   </div>
 
-  <button class="btn-generar" onclick="generar()">Actualizar presupuesto</button>
+  <button class="btn-generar" id="btn-generar">Actualizar presupuesto</button>
 </div>
 
-<!-- PANEL PREVIEW -->
 <div class="panel-preview">
   <div class="preview-actions">
-    <button class="btn-action btn-copy" onclick="copiarTexto()">Copiar texto (WhatsApp)</button>
+    <button class="btn-action btn-copy" id="btn-copy">Copiar texto (WhatsApp)</button>
     <span class="copy-ok" id="copy-ok">✓ Copiado!</span>
     <button class="btn-action btn-print" onclick="window.print()">Imprimir / PDF</button>
   </div>
@@ -433,304 +235,259 @@ const SERVICIOS = [
   {icon:'🏠', label:'Mantenimiento'},
 ];
 
-const DEFAULT_ITEMS = [];
-
-// Set today
-document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
-
-// Init items
-DEFAULT_ITEMS.forEach(t => addItem('items-list', generar, t));
-
 // ── Helpers ──────────────────────────────────────────────
 
-function addItem(listId, callback, text='', price=''){
-  const list = document.getElementById(listId);
-  const div  = document.createElement('div');
-  div.className = 'item-row';
-  div.innerHTML = `
-    <input type="text" class="item-desc" placeholder="Descripción..." value="${text}">
-    <input type="number" class="item-price" placeholder="$ precio" value="${price}" min="0" step="100">
-    <button class="btn-remove" onclick="this.parentElement.remove(); generar()">×</button>`;
-  div.querySelectorAll('input').forEach(i => i.addEventListener('input', generar));
-  list.appendChild(div);
-  if(callback) callback();
-}
-
-// Init items
-  DEFAULT_ITEMS.forEach(t => addItem('items-list', generar, t));
-
 function fmt(n){
-  return '$' + Number(n).toLocaleString('es-AR');
+  return '$' + Math.round(Number(n)).toLocaleString('es-AR');
 }
 
 function fmtFecha(val){
   if(!val) return '';
   const [y,m,d] = val.split('-');
-  return `${d}/${m}/${y}`;
-}
-
-function getItems(listId){
-  // Returns array of {desc, price}
-  return [...document.querySelectorAll(`#${listId} .item-row`)].map(row => ({
-    desc:  row.querySelector('.item-desc').value.trim(),
-    price: parseFloat(row.querySelector('.item-price').value) || 0,
-  })).filter(i => i.desc);
+  return d+'/'+m+'/'+y;
 }
 
 function buildMoLabel(jornadas, ayudante){
-  const j = parseFloat(jornadas) || 0;
-  const a = parseInt(ayudante) || 0;
-  let parts = [];
+  const j = parseFloat(jornadas)||0;
+  const a = parseInt(ayudante)||0;
+  const parts = [];
   if(j > 0){
-    const frac = j % 1;
-    const int  = Math.floor(j);
-    let jStr = '';
-    if(frac === 0)       jStr = `${int} jornada${int !== 1 ? 's' : ''}`;
-    else if(frac === 0.5) jStr = int > 0 ? `${int} jornada${int !== 1 ? 's' : ''} y media` : 'media jornada';
-    else                  jStr = `${j} jornadas`;
-    parts.push(jStr);
+    const ent = Math.floor(j);
+    const dec = Math.round((j - ent)*10);
+    let s = '';
+    if(dec === 0)      s = ent + ' jornada' + (ent!==1?'s':'');
+    else if(dec === 5) s = (ent>0 ? ent+' jornada'+(ent!==1?'s':'')+' y media' : 'media jornada');
+    else               s = j + ' jornadas';
+    parts.push(s);
   }
-  if(a > 0) parts.push(`${a} ayudante${a !== 1 ? 's' : ''}`);
+  if(a > 0) parts.push(a + ' ayudante' + (a!==1?'s':''));
   return parts.join(', ');
 }
 
-// ── Generar preview ──────────────────────────────────────
+function getItems(listId){
+  const rows = document.getElementById(listId).querySelectorAll('.item-row');
+  const result = [];
+  rows.forEach(function(row){
+    const desc  = row.querySelector('.item-desc').value.trim();
+    const price = parseFloat(row.querySelector('.item-price').value)||0;
+    if(desc) result.push({desc:desc, price:price});
+  });
+  return result;
+}
+
+function addItem(listId, text, price){
+  text  = text  || '';
+  price = price || '';
+  const list = document.getElementById(listId);
+  const div  = document.createElement('div');
+  div.className = 'item-row';
+
+  const inp1 = document.createElement('input');
+  inp1.type        = 'text';
+  inp1.className   = 'item-desc';
+  inp1.placeholder = 'Descripción...';
+  inp1.value       = text;
+  inp1.addEventListener('input', generar);
+
+  const inp2 = document.createElement('input');
+  inp2.type        = 'number';
+  inp2.className   = 'item-price';
+  inp2.placeholder = '$ precio';
+  inp2.value       = price;
+  inp2.min         = '0';
+  inp2.step        = '100';
+  inp2.addEventListener('input', generar);
+
+  const btn = document.createElement('button');
+  btn.className   = 'btn-remove';
+  btn.textContent = '×';
+  btn.type        = 'button';
+  btn.addEventListener('click', function(){
+    div.remove();
+    generar();
+  });
+
+  div.appendChild(inp1);
+  div.appendChild(inp2);
+  div.appendChild(btn);
+  list.appendChild(div);
+  generar();
+}
+
+// ── Generar presupuesto ──────────────────────────────────
 
 function generar(){
-  const cliente  = document.getElementById('f-cliente').value || '—';
-  const fecha    = fmtFecha(document.getElementById('f-fecha').value);
-  const monto    = parseFloat(document.getElementById('f-monto').value) || 0;
-  const jornadas = document.getElementById('f-jornadas').value;
-  const ayudante = document.getElementById('f-ayudante').value;
-  const pago     = document.getElementById('f-pago').value || '';
-  const validez  = document.getElementById('f-validez').value || '';
-  const nota     = document.getElementById('f-nota').value || '';
-  const senaPct  = parseFloat(document.getElementById('f-sena').value) || 0;
+  var cliente  = document.getElementById('f-cliente').value.trim();
+  var fecha    = fmtFecha(document.getElementById('f-fecha').value);
+  var monto    = parseFloat(document.getElementById('f-monto').value)||0;
+  var jornadas = document.getElementById('f-jornadas').value;
+  var ayudante = document.getElementById('f-ayudante').value;
+  var pago     = document.getElementById('f-pago').value.trim();
+  var validez  = document.getElementById('f-validez').value.trim();
+  var nota     = document.getElementById('f-nota').value.trim();
+  var senaPct  = parseFloat(document.getElementById('f-sena').value)||0;
 
-  const moLabel  = buildMoLabel(jornadas, ayudante);
+  var moLabel = buildMoLabel(jornadas, ayudante);
+  document.getElementById('mo-hint').textContent =
+    moLabel ? '→ Mano de obra (' + moLabel + ')' : '';
 
-  // Preview label debajo del input
-  document.getElementById('mo-preview').textContent =
-    moLabel ? '→ "Mano de obra (' + moLabel + ')"' : '';
-
-  // Preview seña
-  const total0 = (parseFloat(document.getElementById('f-monto').value)||0);
-  const senaAmt = senaPct > 0 ? Math.round(total0 * senaPct / 100) : 0;
-  document.getElementById('sena-preview').textContent =
+  var total    = monto;
+  var senaAmt  = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
+  document.getElementById('sena-hint').textContent =
     senaAmt > 0 ? '→ Seña: ' + fmt(senaAmt) : '';
 
-  const trabajos   = getItems('items-list');
-  const materiales = getItems('mat-list');
-
-  const svcHTML = SERVICIOS.map(s => `<span><span style="font-size:20px;line-height:1">${s.icon}</span> ${s.label}</span>`).join('');
-
-  // ── Trabajos HTML ──
-  const itemsHTML = trabajos.length
-    ? trabajos.map(i => {
-        const pTag = i.price > 0 ? `<span class="item-amt">${fmt(i.price)}</span>` : '';
-        return `<li><span class="item-text">${i.desc}</span>${pTag}</li>`;
-      }).join('')
-    : '<li><span class="item-text">—</span></li>';
-
-  // ── Materiales HTML ──
-  const sumMat = materiales.reduce((s,i) => s + i.price, 0);
-  let matSection = '';
-  if(materiales.length > 0){
-    const matHTML = materiales.map(i => {
-      const pTag = i.price > 0 ? `<span class="item-amt">${fmt(i.price)}</span>` : '';
-      return `<li><span class="item-text">${i.desc}</span>${pTag}</li>`;
-    }).join('');
-    matSection = `
-      <div class="pres-sec-title" style="margin-top:4px;">Materiales</div>
-      <ul class="pres-items">${matHTML}</ul>`;
-  }
-
-  // ── Totales HTML ──
-  const total = monto + sumMat;
-  let totalesHTML = '';
-
-  // Trabajos con subtotales individuales si alguno tiene precio
-  const sumTrabajos = trabajos.reduce((s,i) => s + i.price, 0);
-
-  if(sumMat > 0){
-    totalesHTML += `
-      <div class="pres-tot-row">
-        <span class="lbl">Mano de obra${moLabel ? ' ('+moLabel+')' : ''}</span>
-        <span class="amt">${fmt(monto)}</span>
-      </div>
-      <div class="pres-tot-row">
-        <span class="lbl">Materiales</span>
-        <span class="amt">${fmt(sumMat)}</span>
-      </div>`;
-  } else {
-    totalesHTML += `
-      <div class="pres-tot-row">
-        <span class="lbl">Mano de obra${moLabel ? ' ('+moLabel+')' : ''}</span>
-        <span class="amt">${fmt(monto)}</span>
-      </div>`;
-  }
-
-  const senaAmt  = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
-  const saldo    = total - senaAmt;
-
-  totalesHTML += `
-    <div class="pres-tot-row grand">
-      <span class="lbl">Total</span>
-      <span class="amt">${fmt(total)}</span>
-    </div>`;
-
-  if(senaAmt > 0){
-    totalesHTML += `
-    <div class="pres-tot-row" style="margin-top:4px;">
-      <span class="lbl">Seña (${senaPct}%)</span>
-      <span class="amt">${fmt(senaAmt)}</span>
-    </div>
-    <div class="pres-tot-row" style="border-top:1px solid var(--arena-b);margin-top:6px;padding-top:8px;">
-      <span class="lbl" style="font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-dk);">Saldo al finalizar</span>
-      <span class="amt" style="font-size:16px;color:var(--marron);font-weight:600;">${fmt(saldo)}</span>
-    </div>`;
-  } else {
-    totalesHTML += `
-    <div class="pres-tot-row">
-      <span class="lbl">Saldo al finalizar</span>
-      <span class="amt">${fmt(total)}</span>
-    </div>`;
-  }
-
-  // Solo mostrar si hay datos
-  if(!cliente || cliente === '—'){
-    document.getElementById('presupuesto').innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
-        height:320px;color:#a08060;font-family:'Oswald',sans-serif;letter-spacing:.15em;
-        text-transform:uppercase;font-size:11px;gap:12px;">
-        <span style="font-size:36px;opacity:.3">📋</span>
-        <span>Completá los datos para ver el presupuesto</span>
-      </div>`;
+  // Sin cliente = pantalla vacía
+  if(!cliente){
+    document.getElementById('presupuesto').innerHTML =
+      '<div class="pres-empty"><span class="ico">📋</span><span>Completá los datos para ver el presupuesto</span></div>';
     return;
   }
 
-  document.getElementById('presupuesto').innerHTML = `
-    <div class="pres-header">
-      <div class="pres-brand-row">
-        <span class="pres-fer">FER&nbsp;</span><span class="pres-olea">OLEA</span>
-      </div>
-      <div class="pres-tagline">Soluciones y Mantenimiento Integral</div>
-      <div class="pres-meta">
-        <div class="pres-meta-row">
-          <span class="pres-meta-lbl">Cliente</span>
-          <span class="pres-meta-val">${cliente}</span>
-        </div>
-        <div class="pres-meta-row">
-          <span class="pres-meta-lbl">Fecha</span>
-          <span class="pres-meta-val">${fecha}</span>
-        </div>
-      </div>
-    </div>
+  var trabajos   = getItems('items-list');
+  var materiales = getItems('mat-list');
+  var sumMat     = 0;
+  materiales.forEach(function(i){ sumMat += i.price; });
+  total = monto + sumMat;
+  senaAmt = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
+  var saldo = total - senaAmt;
 
-    <div class="pres-body">
-      <div class="pres-svc-strip" style="margin-top:18px;">${svcHTML}</div>
+  // Servicios
+  var svcHTML = SERVICIOS.map(function(s){
+    return '<span><span style="font-size:20px;line-height:1">'+s.icon+'</span> '+s.label+'</span>';
+  }).join('');
 
-      <div class="pres-sec-title">Trabajos a realizar</div>
-      <ul class="pres-items">${itemsHTML}</ul>
+  // Trabajos
+  var itemsHTML = '';
+  if(trabajos.length > 0){
+    trabajos.forEach(function(i){
+      var p = i.price > 0 ? '<span class="item-amt">'+fmt(i.price)+'</span>' : '';
+      itemsHTML += '<li><span class="item-text">'+i.desc+'</span>'+p+'</li>';
+    });
+  } else {
+    itemsHTML = '<li><span class="item-text">—</span></li>';
+  }
 
-      ${matSection}
+  // Materiales
+  var matSection = '';
+  if(materiales.length > 0){
+    var matHTML = '';
+    materiales.forEach(function(i){
+      var p = i.price > 0 ? '<span class="item-amt">'+fmt(i.price)+'</span>' : '';
+      matHTML += '<li><span class="item-text">'+i.desc+'</span>'+p+'</li>';
+    });
+    matSection = '<div class="pres-sec-title" style="margin-top:4px;">Materiales</div><ul class="pres-items">'+matHTML+'</ul>';
+  }
 
-      <div class="pres-totales">${totalesHTML}</div>
+  // Totales
+  var totHTML = '';
+  if(sumMat > 0){
+    totHTML += '<div class="pres-tot-row"><span class="lbl">Mano de obra'+(moLabel?' ('+moLabel+')':'')+'</span><span class="amt">'+fmt(monto)+'</span></div>';
+    totHTML += '<div class="pres-tot-row"><span class="lbl">Materiales</span><span class="amt">'+fmt(sumMat)+'</span></div>';
+  } else {
+    totHTML += '<div class="pres-tot-row"><span class="lbl">Mano de obra'+(moLabel?' ('+moLabel+')':'')+'</span><span class="amt">'+fmt(monto)+'</span></div>';
+  }
+  totHTML += '<div class="pres-tot-row grand"><span class="lbl">Total</span><span class="amt">'+fmt(total)+'</span></div>';
+  if(senaAmt > 0){
+    totHTML += '<div class="pres-tot-row" style="margin-top:4px;"><span class="lbl">Seña ('+senaPct+'%)</span><span class="amt">'+fmt(senaAmt)+'</span></div>';
+    totHTML += '<div class="pres-tot-row saldo" style="border-top:1px solid var(--arena-b);margin-top:6px;padding-top:8px;"><span class="lbl">Saldo al finalizar</span><span class="amt">'+fmt(saldo)+'</span></div>';
+  } else {
+    totHTML += '<div class="pres-tot-row"><span class="lbl">Saldo al finalizar</span><span class="amt">'+fmt(total)+'</span></div>';
+  }
 
-      <div class="pres-info-grid">
-        <div class="pres-info-cell">
-          <span class="lbl">Forma de pago</span>
-          <span class="val">${pago}</span>
-        </div>
-        <div class="pres-info-cell">
-          <span class="lbl">Validez</span>
-          <span class="val">${validez}</span>
-        </div>
-      </div>
+  // Info grid
+  var infoHTML = '';
+  if(pago)    infoHTML += '<div class="pres-info-cell"><span class="lbl">Forma de pago</span><span class="val">'+pago+'</span></div>';
+  if(validez) infoHTML += '<div class="pres-info-cell"><span class="lbl">Validez</span><span class="val">'+validez+'</span></div>';
 
-      ${nota ? `<div class="pres-nota">${nota}</div>` : ''}
-    </div>
+  var notaHTML = nota ? '<div class="pres-nota">'+nota+'</div>' : '';
 
-    <div class="pres-footer">
-      <div>
-        <div class="pres-footer-brand"><span class="fer">FER&nbsp;</span><span class="olea">OLEA</span></div>
-        <div class="pres-footer-sub">Tandil, Bs. As.</div>
-      </div>
-      <div class="pres-footer-contact">
-        <span class="phone">2494 066 345</span>
-        <span>@feroleasoluciones</span>
-        <span>feroleasoluciones@gmail.com</span>
-      </div>
-    </div>
-  `;
+  document.getElementById('presupuesto').innerHTML =
+    '<div class="pres-header">' +
+      '<div class="pres-brand-row"><span class="pres-fer">FER&nbsp;</span><span class="pres-olea">OLEA</span></div>' +
+      '<div class="pres-tagline">Soluciones y Mantenimiento Integral</div>' +
+      '<div class="pres-meta-row"><span class="pres-meta-lbl">Cliente</span><span class="pres-meta-val">'+cliente+'</span></div>' +
+      '<div class="pres-meta-row"><span class="pres-meta-lbl">Fecha</span><span class="pres-meta-val">'+fecha+'</span></div>' +
+    '</div>' +
+    '<div class="pres-body">' +
+      '<div class="pres-svc-strip" style="margin-top:18px;">'+svcHTML+'</div>' +
+      '<div class="pres-sec-title">Trabajos a realizar</div>' +
+      '<ul class="pres-items">'+itemsHTML+'</ul>' +
+      matSection +
+      '<div class="pres-totales">'+totHTML+'</div>' +
+      (infoHTML ? '<div class="pres-info-grid">'+infoHTML+'</div>' : '') +
+      notaHTML +
+    '</div>' +
+    '<div class="pres-footer">' +
+      '<div><div class="pres-footer-brand"><span class="fer">FER&nbsp;</span><span class="olea">OLEA</span></div><div class="pres-footer-sub">Tandil, Bs. As.</div></div>' +
+      '<div class="pres-footer-contact"><span class="phone">2494 066 345</span><span>@feroleasoluciones</span><span>feroleasoluciones@gmail.com</span></div>' +
+    '</div>';
 }
 
 // ── Copiar WhatsApp ──────────────────────────────────────
 
 function copiarTexto(){
-  const cliente  = document.getElementById('f-cliente').value || '—';
-  const fecha    = fmtFecha(document.getElementById('f-fecha').value);
-  const monto    = parseFloat(document.getElementById('f-monto').value) || 0;
-  const jornadas = document.getElementById('f-jornadas').value;
-  const ayudante = document.getElementById('f-ayudante').value;
-  const pago     = document.getElementById('f-pago').value || '';
-  const validez  = document.getElementById('f-validez').value || '';
-  const nota     = document.getElementById('f-nota').value || '';
-  const moLabel  = buildMoLabel(jornadas, ayudante);
+  var cliente  = document.getElementById('f-cliente').value.trim() || '—';
+  var fecha    = fmtFecha(document.getElementById('f-fecha').value);
+  var monto    = parseFloat(document.getElementById('f-monto').value)||0;
+  var jornadas = document.getElementById('f-jornadas').value;
+  var ayudante = document.getElementById('f-ayudante').value;
+  var pago     = document.getElementById('f-pago').value.trim();
+  var validez  = document.getElementById('f-validez').value.trim();
+  var nota     = document.getElementById('f-nota').value.trim();
+  var senaPct  = parseFloat(document.getElementById('f-sena').value)||0;
+  var moLabel  = buildMoLabel(jornadas, ayudante);
+  var trabajos   = getItems('items-list');
+  var materiales = getItems('mat-list');
+  var sumMat = 0;
+  materiales.forEach(function(i){ sumMat += i.price; });
+  var total   = monto + sumMat;
+  var senaAmt = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
 
-  const trabajos   = getItems('items-list');
-  const materiales = getItems('mat-list');
-  const sumMat     = materiales.reduce((s,i) => s + i.price, 0);
-  const total      = monto + sumMat;
-
-  let txt = `*Presupuesto — Fer Olea Mantenimiento y Reformas*\n`;
-  txt += `Cliente: ${cliente}\nFecha: ${fecha}\n\n`;
-
-  txt += `*Trabajos a realizar:*\n`;
-  trabajos.forEach(i => {
-    txt += i.price > 0 ? `• ${i.desc} — ${fmt(i.price)}\n` : `• ${i.desc}\n`;
-  });
-
+  var txt = '*Presupuesto — Fer Olea Mantenimiento y Reformas*\n';
+  txt += 'Cliente: '+cliente+'\nFecha: '+fecha+'\n\n';
+  txt += '*Trabajos a realizar:*\n';
+  trabajos.forEach(function(i){ txt += (i.price>0 ? '• '+i.desc+' — '+fmt(i.price) : '• '+i.desc)+'\n'; });
   if(materiales.length > 0){
-    txt += `\n*Materiales:*\n`;
-    materiales.forEach(i => {
-      txt += i.price > 0 ? `• ${i.desc} — ${fmt(i.price)}\n` : `• ${i.desc}\n`;
-    });
+    txt += '\n*Materiales:*\n';
+    materiales.forEach(function(i){ txt += (i.price>0 ? '• '+i.desc+' — '+fmt(i.price) : '• '+i.desc)+'\n'; });
   }
-
-  txt += `\nMano de obra${moLabel ? ' ('+moLabel+')' : ''}: ${fmt(monto)}\n`;
-  if(sumMat > 0) txt += `Materiales: ${fmt(sumMat)}\n`;
-  txt += `\n*Total: ${fmt(total)}*\n`;
-  const senaPct2 = parseFloat(document.getElementById('f-sena').value) || 0;
-  const senaAmt2 = senaPct2 > 0 ? Math.round(total * senaPct2 / 100) : 0;
-  if(senaAmt2 > 0){
-    txt += `Seña (${senaPct2}%): ${fmt(senaAmt2)}\n`;
-    txt += `Saldo al finalizar: ${fmt(total - senaAmt2)}\n`;
+  txt += '\nMano de obra'+(moLabel?' ('+moLabel+')':'')+': '+fmt(monto)+'\n';
+  if(sumMat > 0) txt += 'Materiales: '+fmt(sumMat)+'\n';
+  txt += '\n*Total: '+fmt(total)+'*\n';
+  if(senaAmt > 0){
+    txt += 'Seña ('+senaPct+'%): '+fmt(senaAmt)+'\n';
+    txt += 'Saldo al finalizar: '+fmt(total-senaAmt)+'\n';
   } else {
-    txt += `Saldo al finalizar: ${fmt(total)}\n`;
+    txt += 'Saldo al finalizar: '+fmt(total)+'\n';
   }
-  txt += `Forma de pago: ${pago}\n`;
-  txt += `Validez: ${validez}\n`;
-  if(nota) txt += `\n${nota}\n`;
-  txt += `\nFer Olea — 2494 066 345`;
+  if(pago)    txt += 'Forma de pago: '+pago+'\n';
+  if(validez) txt += 'Validez: '+validez+'\n';
+  if(nota)    txt += '\n'+nota+'\n';
+  txt += '\nFer Olea — 2494 066 345';
 
-  navigator.clipboard.writeText(txt).then(() => {
-    const el = document.getElementById('copy-ok');
+  navigator.clipboard.writeText(txt).then(function(){
+    var el = document.getElementById('copy-ok');
     el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 2500);
+    setTimeout(function(){ el.classList.remove('show'); }, 2500);
   });
 }
 
-// Live update
-document.querySelectorAll('.panel-form input, .panel-form textarea')
-  .forEach(el => el.addEventListener('input', generar));
+// ── Init ─────────────────────────────────────────────────
 
-// Registrar Service Worker
+document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+
+document.getElementById('btn-add-trabajo').addEventListener('click', function(){ addItem('items-list'); });
+document.getElementById('btn-add-mat').addEventListener('click', function(){ addItem('mat-list'); });
+document.getElementById('btn-generar').addEventListener('click', generar);
+document.getElementById('btn-copy').addEventListener('click', copiarTexto);
+
+document.querySelectorAll('.panel-form input, .panel-form textarea').forEach(function(el){
+  el.addEventListener('input', generar);
+});
+
 if('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('SW registrado'))
-      .catch(e => console.log('SW error:', e));
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js');
   });
 }
 
