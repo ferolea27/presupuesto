@@ -176,7 +176,7 @@ body{font-family:'Source Sans 3',sans-serif;background:#e4ddd3;min-height:100vh;
   <!-- MANO DE OBRA -->
   <div class="form-row">
     <div class="form-group">
-      <label>Mano de obra ($)</label>
+      <label>Mano de obra ($) <span id="mo-reset-btn" onclick="resetMonto()" style="display:none;cursor:pointer;font-size:9px;color:rgba(201,160,96,.6);border:1px solid rgba(201,160,96,.3);border-radius:3px;padding:1px 5px;margin-left:4px;letter-spacing:.05em;">↺ auto</span></label>
       <input type="number" id="f-monto" placeholder="0">
     </div>
     <div class="form-group">
@@ -319,7 +319,6 @@ function addItem(listId, text, price){
 function generar(){
   var cliente  = document.getElementById('f-cliente').value.trim();
   var fecha    = fmtFecha(document.getElementById('f-fecha').value);
-  var monto    = parseFloat(document.getElementById('f-monto').value)||0;
   var jornadas = document.getElementById('f-jornadas').value;
   var ayudante = document.getElementById('f-ayudante').value;
   var pago     = document.getElementById('f-pago').value.trim();
@@ -327,12 +326,27 @@ function generar(){
   var nota     = document.getElementById('f-nota').value.trim();
   var senaPct  = parseFloat(document.getElementById('f-sena').value)||0;
 
-  var moLabel = buildMoLabel(jornadas, ayudante);
-  document.getElementById('mo-hint').textContent =
-    moLabel ? '→ Mano de obra (' + moLabel + ')' : '';
+  // Auto-sumar precios de trabajos → mano de obra
+  var trabajos    = getItems('items-list');
+  var materiales  = getItems('mat-list');
+  var sumTrabajos = 0;
+  trabajos.forEach(function(i){ sumTrabajos += i.price; });
 
-  var total    = monto;
-  var senaAmt  = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
+  var campoMonto = document.getElementById('f-monto');
+  if(sumTrabajos > 0 && !campoMonto._editadoManual){
+    campoMonto.value = sumTrabajos;
+  }
+  var monto = parseFloat(campoMonto.value)||0;
+
+  var moLabel = buildMoLabel(jornadas, ayudante);
+  var moHint  = moLabel ? '→ Mano de obra (' + moLabel + ')' : '';
+  if(sumTrabajos > 0) moHint += (moHint ? '  •  ' : '') + '⚡ Auto-calculado desde trabajos';
+  document.getElementById('mo-hint').textContent = moHint;
+
+  var sumMat  = 0;
+  materiales.forEach(function(i){ sumMat += i.price; });
+  var total   = monto + sumMat;
+  var senaAmt = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
   document.getElementById('sena-hint').textContent =
     senaAmt > 0 ? '→ Seña: ' + fmt(senaAmt) : '';
 
@@ -342,12 +356,6 @@ function generar(){
       '<div class="pres-empty"><span class="ico">📋</span><span>Completá los datos para ver el presupuesto</span></div>';
     return;
   }
-
-  var trabajos   = getItems('items-list');
-  var materiales = getItems('mat-list');
-  var sumMat     = 0;
-  materiales.forEach(function(i){ sumMat += i.price; });
-  total = monto + sumMat;
   senaAmt = senaPct > 0 ? Math.round(total * senaPct / 100) : 0;
   var saldo = total - senaAmt;
 
@@ -475,6 +483,18 @@ function copiarTexto(){
 // ── Init ─────────────────────────────────────────────────
 
 document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+
+// Marcar monto como editado manualmente si el usuario lo toca
+document.getElementById('f-monto').addEventListener('focus', function(){
+  this._editadoManual = true;
+  document.getElementById('mo-reset-btn').style.display = 'inline';
+});
+function resetMonto(){
+  var campo = document.getElementById('f-monto');
+  campo._editadoManual = false;
+  document.getElementById('mo-reset-btn').style.display = 'none';
+  generar();
+}
 
 document.getElementById('btn-add-trabajo').addEventListener('click', function(){ addItem('items-list'); });
 document.getElementById('btn-add-mat').addEventListener('click', function(){ addItem('mat-list'); });
